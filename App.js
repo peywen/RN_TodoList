@@ -105,19 +105,20 @@ export default class FlatListBasics extends Component {
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
           />
-          <Button
-            style={styles.button}
-        onPress={() => {
+      <Button
+          buttonStyle={styles.button}
+        onPress = {
+      () => {
         // console.debug('Pressed!!!!');
-        console.log('data='+ this.state.data)
+        console.log('data=' + this.state.data)
         // this.state.data.push('kanewnew')
         console.log(this.state.data);
         this._handlePress()
-        }}
-        title="Add a event"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
+      }
+        }
+        title = "Add a event"
+        accessibilityLabel = "Learn more about this purple button" /
+        >
         </View>
     );
   }
@@ -127,36 +128,46 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 22,
+    marginBottom: 20,
   },
   header: {
-    // flex: 1,
-    paddingTop: 22,
-    height: 50,
+    // flex: 2,
+    marginTop: 20,
+    paddingTop: 10,
+    height: 40,
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
   item: {
     padding: 10,
-    fontSize: 18,
+    fontSize: 40,
     height: 44,
   },
   list: {
+    // flex: 2,
     marginBottom: 20,
-    height: 200,
+    // paddingTop: 40,
+    marginTop: 20,
+    // height: 205,
     // paddingBottom: 10,
     backgroundColor: 'rgba(255,200,200,1.0)',
   },
   inputField: {
-    flex: 2,
-    marginLeft: 20,
-    marginRight: 20,
-    // marginBottom: 60,
+    // flex: 2,
+    // marginTop: 40,
+    paddingLeft: 20,
+    paddingRight: 20,
+    // marginBottom: 100,
     // paddingBottom: 40,
     height: 40,
-    backgroundColor: 'rgba(0,200,200,1.0)',
+    backgroundColor: 'rgba(220,220,220,1.0)',
   },
   button: {
-    flex: 3,
-    marginBottom: 30,
-    height: 40,
+    // flex: 2,
+    backgroundColor: "rgba(92, 99,216, 1)",
+    width: 300,
+    height: 45,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
   }
 })
