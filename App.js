@@ -26,8 +26,6 @@ export default class FlatListBasics extends Component {
         key: 'banana'
       }, {
         key: 'cat'
-      }, {
-        key: ''
       }],
       text: '',
       count: 4,
@@ -55,20 +53,20 @@ export default class FlatListBasics extends Component {
     console.debug('_handleTextChanged');
   }
 
-  _removeItem(index) {
-    console.debug('remove:' + index);
-    // const data = this.state.data;
-    // const result = data.filter(this.state.data[index])
-    // const data = this.state.data.splice(index, 1);
-    // console.debug('result:' + data);
-    // this.setState({
-    //  data: data
-    // })
-  }
-
-  _pressBtn = (index) => {
-    console.debug(index);
-    Alert.alert('Touched')
+  _removeItem = ({
+    item
+  }) => {
+    var data = this.state.data;
+    const wannaRemove = item;
+    console.debug('wannaRemove:' + wannaRemove.key);
+    // console.debug('data:' + data[0].key);
+    var result = data.filter(element => {
+      return element.key !== item.key
+    })
+    console.debug('result:' + result.key);
+    this.setState({
+      data: result
+    })
   }
 
   _renderItem = ({
@@ -81,7 +79,7 @@ export default class FlatListBasics extends Component {
       <TouchableHighlight
       onPress={()=> {
         console.debug(index)
-        this._removeItem(index)
+        this._removeItem({item})
       }
       }
       underlayColor='black'
