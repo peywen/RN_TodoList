@@ -82,7 +82,8 @@ export default class FlatListBasics extends Component {
         this._removeItem({item})
       }
       }
-      underlayColor='black'
+      // underlayColor='black'
+     style={styles.item}
     >
       <Text>{item.key}</Text>
     </TouchableHighlight>
@@ -104,9 +105,10 @@ export default class FlatListBasics extends Component {
             // onChangeText={ (text) => this._handleTextChanged(text)} 
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
+            placeholder='Input here'
           />
       <Button
-          buttonStyle={styles.button}
+        buttonStyle={styles.button}
         onPress = {
       () => {
         // console.debug('Pressed!!!!');
@@ -138,8 +140,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
   item: {
-    padding: 10,
-    fontSize: 40,
+    justifyContent: 'center',
+    padding: 0,
+    // fontSize: 40,
+    alignContent: 'center',
+    backgroundColor: 'brown',
     height: 44,
   },
   list: {
