@@ -48,9 +48,16 @@ export default class FlatListBasics extends Component {
     this.setState({
       count
     });
+    this.setState({
+      text: ''
+    });
   }
   _handleTextChanged(text) {
-    console.debug('_handleTextChanged');
+    console.debug('_handleTextChanged' + text);
+    var inputItem = text;
+    this.setState({
+      text: inputItem
+    })
   }
 
   _removeItem = ({
@@ -82,7 +89,6 @@ export default class FlatListBasics extends Component {
         this._removeItem({item})
       }
       }
-      // underlayColor='black'
      style={styles.item}
     >
       <Text>{item.key}</Text>
@@ -97,13 +103,11 @@ export default class FlatListBasics extends Component {
           <FlatList style={styles.list}
             data={(this.state.data)}
         extraData = {this.state}
-            // renderItem={this._renderItem}
           renderItem={this._renderItem}
         onRefresh={this._onRefresh}
           />
         <TextInput style={styles.inputField}
-            // onChangeText={ (text) => this._handleTextChanged(text)} 
-            onChangeText={(text) => this.setState({text})}
+            onChangeText={ (text) => this._handleTextChanged(text)} 
             value={this.state.text}
             placeholder='Input here'
           />
@@ -113,7 +117,6 @@ export default class FlatListBasics extends Component {
       () => {
         // console.debug('Pressed!!!!');
         console.log('data=' + this.state.data)
-        // this.state.data.push('kanewnew')
         console.log(this.state.data);
         this._handlePress()
       }
