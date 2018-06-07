@@ -16,6 +16,8 @@ import {
   Alert
 } from 'react-native';
 
+import Swipeout from 'react-native-swipeout';
+
 export default class FlatListBasics extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +31,7 @@ export default class FlatListBasics extends Component {
       }],
       text: '',
       count: 4,
+      activeRow: null,
     }
   }
 
@@ -52,12 +55,19 @@ export default class FlatListBasics extends Component {
       text: ''
     });
   }
+
   _handleTextChanged(text) {
     console.debug('_handleTextChanged' + text);
     var inputItem = text;
     this.setState({
       text: inputItem
     })
+  }
+
+  _handleLongPress({
+    item
+  }) {
+    Alert.alert('long press:' + item.index)
   }
 
   _removeItem = ({
@@ -76,23 +86,53 @@ export default class FlatListBasics extends Component {
     })
   }
 
+  onSwipeOpen(item, rowId, direction) {
+    this.setState({
+      activeRow: item.noteId
+    });
+  }
+
+  onSwipeClose(item, rowId, direction) {
+    if (item.noteId === this.state.activeRow && typeof direction !== 'undefined') {
+      this.setState({
+        activeRow: null
+      });
+    }
+  }
+
   _renderItem = ({
     item,
-    index
+    activeRow
   }) => {
     // console.debug(item.count)
     // onPress={()=> {console.debug(index)}}
+    const swipeSettings = {
+      autoClose: true,
+      close: item.noteId !== this.state.activeRow,
+      onClose: (secId, rowId, direction) => this.onSwipeClose(item, rowId, direction),
+      onOpen: (secId, rowId, direction) => this.onSwipeOpen(item, rowId, direction),
+      right: [{
+        onPress: () => this._removeItem({
+          item
+        }),
+        text: 'Delete',
+        type: 'delete'
+      }],
+      rowId: item.index,
+      sectionId: 1
+    };
+
     return (
-      <TouchableHighlight
-      onPress={()=> {
-        console.debug(index)
-        this._removeItem({item})
-      }
-      }
-     style={styles.item}
-    >
-      <Text>{item.key}</Text>
-    </TouchableHighlight>
+      <Swipeout {...swipeSettings}>
+          <TouchableHighlight
+              onPress = {() => {
+                  console.debug(item.key)
+                }
+              }
+              style = {styles.item} >
+          <Text>{item.key}</Text>
+          </TouchableHighlight>
+      </Swipeout>
     )
   }
 
@@ -102,7 +142,7 @@ export default class FlatListBasics extends Component {
       <View style={styles.header}> <Text> My TODO List</Text> </View>
           <FlatList style={styles.list}
             data={(this.state.data)}
-        extraData = {this.state}
+            extraData={(this.state.activeRow)}
           renderItem={this._renderItem}
         onRefresh={this._onRefresh}
           />
@@ -113,13 +153,12 @@ export default class FlatListBasics extends Component {
           />
       <Button
         buttonStyle={styles.button}
-        onPress = {
-      () => {
-        // console.debug('Pressed!!!!');
-        console.log('data=' + this.state.data)
-        console.log(this.state.data);
-        this._handlePress()
-      }
+        onPress = {() => {
+          // console.debug('Pressed!!!!');
+          console.log('data=' + this.state.data)
+          console.log(this.state.data);
+          this._handlePress()
+        }
         }
         title = "Add a event"
         accessibilityLabel = "Learn more about this purple button" /
@@ -147,7 +186,7 @@ const styles = StyleSheet.create({
     padding: 0,
     // fontSize: 40,
     alignContent: 'center',
-    backgroundColor: 'brown',
+    backgroundColor: 'rgba(255,200,200,1.0)',
     height: 44,
   },
   list: {
@@ -157,7 +196,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     // height: 205,
     // paddingBottom: 10,
-    backgroundColor: 'rgba(255,200,200,1.0)',
+    backgroundColor: 'white',
   },
   inputField: {
     // flex: 2,
